@@ -1,0 +1,58 @@
+from fastapi import FastAPI, Depends, HTTPException, Response
+from fastapi.middleware.cors import CORSMiddleware
+from typing import Annotated
+from sqlalchemy.orm import Session
+
+from pydantic import BaseModel
+
+from backend.models import TodoEntry
+from backend.dependencies import get_db
+from backend.schemas import TodoCreate, TodoReturn
+from backend import database
+from backend import crud
+
+database.create_db_and_tables()
+app = FastAPI()
+
+origins = [
+    "http://127.0.0.1:5500",
+    "http://localhost:5500",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+DbDependency = Annotated[Session, Depends(get_db)]
+
+
+@app.get("/todos/", response_model=list[TodoReturn])
+def get_todo_all(db: DbDependency):
+    todos = crud.get_todo_all(db=db)
+
+    return todos
+
+
+@app.get("/todos/{todo_id}", response_model=TodoReturn)
+def get_todo_by_id(todo_id: int, db: DbDependency):
+    todo_entry = crud.get_todo_by_id(todo_id=todo_id, db=db)
+
+    return todo_entry
+
+
+@app.post("/todos/", response_model=TodoReturn)
+def create_todo(todo: TodoCreate, db: DbDependency):
+    todo_entry = crud.create_todo(todo=todo, db=db)
+
+    return todo_entry
+
+
+@app.delete("/todos/{todo_id}")
+def delete_todo(todo_id: int, db: DbDependency):
+    crud.delete_todo(todo_id=todo_id, db=db)
+
+    return Response(status_code=204)

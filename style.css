@@ -1,0 +1,37 @@
+.add-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px 50px;
+}
+
+.add-button {
+    background-color: rgb(41, 104, 241);
+    border: none;
+    border-radius: 5px;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.todo-board {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+}
+
+.todo-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-color: lightblue;
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 10px;
+
+}
