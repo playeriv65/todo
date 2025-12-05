@@ -4,25 +4,27 @@
 
 <head>
     <title>My Todo</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="stylesheet" href="/styles/todo-board.css">
 </head>
 
-<body>
-    <div class="add-bar">
+<body class="body-temp">
+    <div class="todo-app-div">
+        <div class="add-bar">
 
-        <input class="name-input" placeholder="todo name" id="name-input">
+            <input class="name-input" placeholder="todo name" id="name-input">
 
-        <input class="ddl-input" placeholder="ddl" id='ddl-input'>
+            <input class="ddl-input" placeholder="ddl" id='ddl-input'>
 
-        <button type="button" class="add-button" id="add-button">Add</button>
+            <button type="button" class="add-button" id="add-button">Add</button>
+
+        </div>
+
+        <div class="todo-board" id="todo-board">
+
+        </div>
 
     </div>
-
-    <div class="todo-board" id="todo-board">
-
-    </div>
-
-    <script type="module" src="api.js"></script>
 
     <script type="module" src="app.js"></script>
 

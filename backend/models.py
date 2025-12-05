@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, Boolean
-from .database import Base
+from backend.database import Base
 
 class TodoEntry(Base):
     __tablename__ = "todos"

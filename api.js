@@ -1,53 +1,65 @@
-const BaseApiUrl = 'http://127.0.0.1:8000'
+const BaseApiUrl = "http://127.0.0.1:8000";
+
+const JSON_HEADER = { "Content-Type": "application/json" };
 
 async function apiCall(endPoint, config = {}) {
-    try {
-        const response = await fetch(BaseApiUrl + endPoint, config);
+  try {
+    const response = await fetch(BaseApiUrl + endPoint, config);
 
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(`API error! Status: ${response.status}. Detail: ${errorData}`);
-        }
-
-        if (response.status === 204) {
-            return { message: 'OK' };
-        }
-
-        return response.json();
-    } catch (error) {
-        console.error('Connection error:', error);
-        throw error;
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(
+        `API error! Status: ${response.status}. Detail: ${errorData}`
+      );
     }
+
+    if (response.status === 204) {
+      return { message: "OK" };
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error("Connection error:", error);
+    throw error;
+  }
 }
 
 export async function getAllTodo() {
-    const todoList = await apiCall('/todos/');
+  const todoList = await apiCall("/todos/");
 
-    return todoList;
+  return todoList;
 }
 
-export async function getTodoById(todo_id) {
-    const todo = await apiCall(`/todos/${todo_id}`);
+export async function getTodoById(todoId) {
+  const todo = await apiCall(`/todos/${todoId}`);
 
-    return todo;
+  return todo;
 }
 
 export async function createTodo(todoCreate) {
-    const todo = await apiCall('/todos/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(todoCreate)
-    })
+  const todo = await apiCall("/todos/", {
+    method: "POST",
+    headers: JSON_HEADER,
+    body: JSON.stringify(todoCreate),
+  });
 
-    return todo;
+  return todo;
 }
 
-export async function deleteTodo(todo_id) {
-    const msg = await apiCall(`/todos/${todo_id}`, {
-        method: 'DELETE',
-    })
+export async function updateTodo(todoId, todoUpdate) {
+  const todo = await apiCall(`/todos/${todoId}`, {
+    method: "PATCH",
+    headers: JSON_HEADER,
+    body: JSON.stringify(todoUpdate),
+  });
 
-    return msg;
+  return todo;
+}
+
+export async function deleteTodo(todoId) {
+  const msg = await apiCall(`/todos/${todoId}`, {
+    method: "DELETE",
+  });
+
+  return msg;
 }

@@ -7,7 +7,7 @@ from pydantic import BaseModel
 
 from backend.models import TodoEntry
 from backend.dependencies import get_db
-from backend.schemas import TodoCreate, TodoReturn
+from backend.schemas import *
 from backend import database
 from backend import crud
 
@@ -30,23 +30,30 @@ app.add_middleware(
 DbDependency = Annotated[Session, Depends(get_db)]
 
 
-@app.get("/todos/", response_model=list[TodoReturn])
+@app.get("/todos/", response_model=list[TodoBase])
 def get_todo_all(db: DbDependency):
     todos = crud.get_todo_all(db=db)
 
     return todos
 
 
-@app.get("/todos/{todo_id}", response_model=TodoReturn)
+@app.get("/todos/{todo_id}", response_model=TodoBase)
 def get_todo_by_id(todo_id: int, db: DbDependency):
     todo_entry = crud.get_todo_by_id(todo_id=todo_id, db=db)
 
     return todo_entry
 
 
-@app.post("/todos/", response_model=TodoReturn)
+@app.post("/todos/", response_model=TodoBase)
 def create_todo(todo: TodoCreate, db: DbDependency):
     todo_entry = crud.create_todo(todo=todo, db=db)
+
+    return todo_entry
+
+
+@app.patch("/todos/{todo_id}", response_model=TodoBase)
+def update_todo(todo_id: int, todo_update: TodoUpdate, db: DbDependency):
+    todo_entry = crud.update_todo(todo_id=todo_id, todo_update=todo_update, db=db)
 
     return todo_entry
 

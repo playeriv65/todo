@@ -1,0 +1,49 @@
+.todo-board {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+}
+
+.todo-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-color: lightblue;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 10px;
+  padding: 5px 15px;
+}
+
+.todo-name {
+  flex: 2;
+}
+
+.todo-ddl {
+  flex: 1;
+  padding: 0 5px;
+}
+
+.delete-button,
+.restore-button {
+  border-radius: 5px;
+  padding: 5px 10px;
+  text-align: center;
+  font-size: 14px;
+  cursor: pointer;
+  margin: 10px;
+}
+
+.delete-button {
+  border-color: rgb(241, 41, 41);
+  border-style: solid;
+  border-width: 3px;
+  border-radius: 100%;
+  background-color: white;
+}
+
+.restore-button {
+  background-color: rgb(65, 218, 35);
+  color: white;
+}

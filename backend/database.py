@@ -1,3 +1,6 @@
+"""
+Database module
+"""
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
@@ -15,6 +18,8 @@ Base = declarative_base()
 
 
 def test_mode():
+    """Enable test mode and initiate database
+    """
     from backend.models import TodoEntry
 
     db = SessionLocal()
@@ -28,7 +33,7 @@ def test_mode():
         # 使用 text() 确保 SQLAlchemy 正确处理原始语句
         db.execute(text("UPDATE sqlite_sequence SET seq = 0 WHERE name = 'todos';"))
 
-    except:
+    except Exception:
         pass
 
     # 3. 提交删除和重置操作
@@ -55,5 +60,10 @@ def test_mode():
 
 
 def create_db_and_tables():
+    """
+    Docstring for create_db_and_tables
+    
+    Open database and initiate
+    """
     Base.metadata.create_all(bind=engine)
     test_mode()
