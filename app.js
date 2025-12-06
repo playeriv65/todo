@@ -6,33 +6,14 @@ const ddlInput = document.getElementById("ddl-input");
 const addButton = document.getElementById("add-button");
 const todoBoard = document.getElementById("todo-board");
 
-const addTodo = async (todoName, ddl) => {
-  const todoCreate = {
-    todoName,
-    ddl,
-  };
-
-  const todo = await API.createTodo(todoCreate);
-  addTodoToBoard(todo);
-};
-
-const deleteTodo = async (todo_id) => {
-  await API.deleteTodo(todo_id);
-  renderTodoList();
-};
-
 const renderTodoList = async () => {
   const todoList = await API.getAllTodo();
 
   todoBoard.innerHTML = "";
   todoList.forEach((todo) => {
-    addTodoToBoard(todo);
+    todoBoard.appendChild(DOM_UTIL.getTodoDiv(todo));
   });
   console.log("render");
-};
-
-const addTodoToBoard = (todo) => {
-  todoBoard.appendChild(DOM_UTIL.getTodoDiv(todo));
 };
 
 const clearInput = () => {
@@ -40,29 +21,48 @@ const clearInput = () => {
   ddlInput.value = "";
 };
 
-addButton.addEventListener("click", (event) => {
+addButton.addEventListener("click", async () => {
   const todoName = todoNameInput.value;
   const ddl = ddlInput.value;
-  const finished = false;
 
   if (todoName == "") {
     alert("Must have a name!");
     return;
   }
 
-  addTodo(todoName, ddl, finished);
+  await API.createTodo({ todoName, ddl });
+
+  renderTodoList();
   clearInput();
 });
 
-todoBoard.addEventListener("click", (event) => {
+todoBoard.addEventListener("click", async (event) => {
   const clickedElement = event.target;
 
-  if (clickedElement.classList.contains("delete-button")) {
-    const todoId = Number(clickedElement.dataset.id);
-    deleteTodo(todoId);
+  const todoDeleteButton = clickedElement.closest(".todo-delete-button");
+  const todoToggleButton = clickedElement.closest(".todo-toggle-button");
+  const todoDdlDiv = clickedElement.closest(".todo-ddl-div");
+
+  if (todoDeleteButton) {
+    const todoId = Number(todoDeleteButton.dataset.id);
+    await API.deleteTodo(todoId);
     renderTodoList();
-  } else if (clickedElement.classList.contains("editable")) {
+  } else if (todoToggleButton) {
+    const todoId = Number(todoToggleButton.dataset.id);
+    const todoFinished = todoToggleButton.dataset.finished === "true";
+
+    const updatedTodo = await API.toggleTodo(todoId, todoFinished);
+    const updatedTodoDiv = DOM_UTIL.getTodoDiv(updatedTodo);
+    todoToggleButton.closest(".todo-div").replaceWith(updatedTodoDiv);
+  } else if (clickedElement.classList.contains("todo-name")) {
     clickedElement.contentEditable = true;
+  } else if (todoDdlDiv) {
+
+    const todoDdlText = todoDdlDiv.querySelector(".todo-ddl-text");
+    const todoDdlInput = todoDdlDiv.querySelector(".todo-ddl-input");
+
+    todoDdlText.style.display = "none";
+    todoDdlText.style.display = "block";
   }
 });
 
@@ -74,7 +74,7 @@ todoBoard.addEventListener("focusout", async (event) => {
       [outElement.dataset.varName]: outElement.textContent,
     });
 
-    const updatedTodoDiv = DOM_UTIL.getTodoDiv(updatedTodo)
+    const updatedTodoDiv = DOM_UTIL.getTodoDiv(updatedTodo);
     outElement.closest(".todo-div").replaceWith(updatedTodoDiv);
   }
 });

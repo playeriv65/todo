@@ -56,6 +56,15 @@ export async function updateTodo(todoId, todoUpdate) {
   return todo;
 }
 
+export async function toggleTodo(todoId, todoFinished) {
+  const todoUpdate = {
+    finished: !todoFinished,
+  };
+
+  const todo = await updateTodo(todoId, todoUpdate);
+  return todo;
+}
+
 export async function deleteTodo(todoId) {
   const msg = await apiCall(`/todos/${todoId}`, {
     method: "DELETE",

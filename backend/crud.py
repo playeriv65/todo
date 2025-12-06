@@ -37,8 +37,6 @@ def update_todo(todo_id: int, todo_update: TodoUpdate, db: Session):
     todo_entry = get_todo_by_id(todo_id=todo_id, db=db)
 
     update_data = todo_update.model_dump(exclude_unset=True)
-    
-    print(update_data)
 
     for key, value in update_data.items():
         setattr(todo_entry, key, value)

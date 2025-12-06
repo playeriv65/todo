@@ -1,10 +1,12 @@
 """
 Database module
 """
+
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import delete, text
+from datetime import datetime, date
 
 SQLALCHEMY_DATABASE_URL = "sqlite:///./backend/db_tables/todos.db"
 
@@ -18,8 +20,7 @@ Base = declarative_base()
 
 
 def test_mode():
-    """Enable test mode and initiate database
-    """
+    """Enable test mode and initiate database"""
     from backend.models import TodoEntry
 
     db = SessionLocal()
@@ -43,10 +44,14 @@ def test_mode():
     print("开始插入初始化数据...")
 
     initial_todos = [
-        {"todoName": "实现后端删除功能", "ddl": "今天", "finished": True},
-        {"todoName": "前端联调 - GET", "ddl": "今天", "finished": True},
-        {"todoName": "前端联调 - POST", "ddl": "明天", "finished": False},
-        {"todoName": "学习 CSS Flexbox 技巧", "ddl": "周末", "finished": False},
+        {"todoName": "实现后端删除功能", "ddl": date(2025, 12, 5), "finished": True},
+        {"todoName": "前端联调 - GET", "ddl": date(2025, 12, 5), "finished": True},
+        {"todoName": "前端联调 - POST", "ddl": date(2025, 12, 7), "finished": False},
+        {
+            "todoName": "学习 CSS Flexbox 技巧",
+            "ddl": date(2025, 12, 3),
+            "finished": False,
+        },
     ]
 
     for todo_data in initial_todos:
@@ -62,7 +67,7 @@ def test_mode():
 def create_db_and_tables():
     """
     Docstring for create_db_and_tables
-    
+
     Open database and initiate
     """
     Base.metadata.create_all(bind=engine)

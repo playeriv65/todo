@@ -4,20 +4,21 @@ Basic schemas for data
 
 from typing import Optional
 from pydantic import BaseModel
+from datetime import datetime
 
 
 class TodoCreate(BaseModel):
     """Class for receiving create data"""
 
     todoName: str
-    ddl: str | None = None
+    ddl: Optional[datetime] = None
 
 
 class TodoUpdate(BaseModel):
     """Class for update"""
 
     todoName: Optional[str] = None
-    ddl: Optional[str] = None
+    ddl: Optional[datetime] = None
     finished: Optional[bool] = None
 
 
@@ -26,7 +27,7 @@ class TodoBase(BaseModel):
 
     id: int
     todoName: str
-    ddl: str | None = None
+    ddl: Optional[datetime] = None
     finished: bool
 
     class Config:
