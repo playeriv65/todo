@@ -1,5 +1,4 @@
 const BaseApiUrl = "http://127.0.0.1:8000";
-
 const JSON_HEADER = { "Content-Type": "application/json" };
 
 async function apiCall(endPoint, config = {}) {
@@ -24,10 +23,9 @@ async function apiCall(endPoint, config = {}) {
   }
 }
 
-export async function getAllTodo() {
-  const todoList = await apiCall("/todos/");
-
-  return todoList;
+export async function getTodoList() {
+  const todoListRemote = await apiCall("/todos/");
+  return todoListRemote;
 }
 
 export async function getTodoById(todoId) {

@@ -1,4 +1,4 @@
-import * as API from "./api.js";
+import * as API from "./api/api.js";
 import * as DOM_UTIL from "./dom_util.js";
 
 const todoNameInput = document.getElementById("name-input");
@@ -6,15 +6,20 @@ const ddlInput = document.getElementById("ddl-input");
 const addButton = document.getElementById("add-button");
 const todoBoard = document.getElementById("todo-board");
 
-const renderTodoList = async () => {
-  const todoList = await API.getAllTodo();
-
+const renderTodoList = (todoList) => {
   todoBoard.innerHTML = "";
   todoList.forEach((todo) => {
     todoBoard.appendChild(DOM_UTIL.getTodoDiv(todo));
   });
   console.log("render");
 };
+
+async function initTodoListPage() {
+  const localTodoList = await API.getTodoList((remoteTodoList) => {
+    renderTodoList(remoteTodoList);
+  })
+  renderTodoList(localTodoList);
+}
 
 const clearInput = () => {
   todoNameInput.value = "";
@@ -41,7 +46,6 @@ todoBoard.addEventListener("click", async (event) => {
 
   const todoDeleteButton = clickedElement.closest(".todo-delete-button");
   const todoToggleButton = clickedElement.closest(".todo-toggle-button");
-  const todoDdlDiv = clickedElement.closest(".todo-ddl-div");
 
   if (todoDeleteButton) {
     const todoId = Number(todoDeleteButton.dataset.id);
@@ -54,15 +58,11 @@ todoBoard.addEventListener("click", async (event) => {
     const updatedTodo = await API.toggleTodo(todoId, todoFinished);
     const updatedTodoDiv = DOM_UTIL.getTodoDiv(updatedTodo);
     todoToggleButton.closest(".todo-div").replaceWith(updatedTodoDiv);
-  } else if (clickedElement.classList.contains("todo-name")) {
+  } else if (
+    clickedElement.classList.contains("todo-name") ||
+    clickedElement.classList.contains("todo-ddl-text")
+  ) {
     clickedElement.contentEditable = true;
-  } else if (todoDdlDiv) {
-
-    const todoDdlText = todoDdlDiv.querySelector(".todo-ddl-text");
-    const todoDdlInput = todoDdlDiv.querySelector(".todo-ddl-input");
-
-    todoDdlText.style.display = "none";
-    todoDdlText.style.display = "block";
   }
 });
 
@@ -85,4 +85,4 @@ todoBoard.addEventListener("keydown", (event) => {
   }
 });
 
-renderTodoList();
+initTodoListPage();

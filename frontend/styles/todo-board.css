@@ -23,6 +23,7 @@
 
 .todo-ddl-div {
   flex: 1;
+  position: relative;
 }
 
 .todo-ddl-text {
@@ -35,6 +36,9 @@
   left: 0;
   width: 100%;
   height: 100%;
+
+  background-color: rgba(0, 0, 0, 0.5);
+  border: none;
 
   font-family: inherit;
   font-size: inherit;
@@ -69,6 +73,15 @@
 
 .redo-button {
   border-color: rgb(65, 218, 35);
+}
+
+.todo-delete-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: transparent;
+  border: none;
 }
 
 .hidden-item {
