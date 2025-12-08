@@ -34,11 +34,11 @@ export async function getTodoById(todoId) {
   return todo;
 }
 
-export async function createTodo(todoCreate) {
+export async function postTodo(todoPost) {
   const todo = await apiCall("/todos/", {
     method: "POST",
     headers: JSON_HEADER,
-    body: JSON.stringify(todoCreate),
+    body: JSON.stringify(todoPost),
   });
 
   return todo;

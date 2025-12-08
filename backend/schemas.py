@@ -5,11 +5,13 @@ Basic schemas for data
 from typing import Optional
 from pydantic import BaseModel
 from datetime import datetime
+from uuid import UUID
 
 
 class TodoCreate(BaseModel):
     """Class for receiving create data"""
 
+    id: UUID
     todoName: str
     ddl: Optional[datetime] = None
 
@@ -25,7 +27,7 @@ class TodoUpdate(BaseModel):
 class TodoBase(BaseModel):
     """Class for a full todo data"""
 
-    id: int
+    id: UUID
     todoName: str
     ddl: Optional[datetime] = None
     finished: bool

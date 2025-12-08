@@ -7,6 +7,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import delete, text
 from datetime import datetime, date
+from uuid6 import uuid7
 
 SQLALCHEMY_DATABASE_URL = "sqlite:///./backend/db_tables/todos.db"
 
@@ -55,6 +56,7 @@ def test_mode():
     ]
 
     for todo_data in initial_todos:
+        todo_data["id"] = uuid7()
         todo = TodoEntry(**todo_data)
         db.add(todo)
 
