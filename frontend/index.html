@@ -15,19 +15,27 @@
 
         </div>
 
-        <div class="add-bar">
+        <div id="add-modal" class="add-modal">
 
-            <input class="name-input" placeholder="todo name" id="name-input">
+            <div id="add-bar-overlay" class="add-bar-overlay">
 
-            <input class="ddl-input" type="datetime-local" placeholder="ddl" id='ddl-input'>
+                <div id="add-bar" class="add-bar">
 
-            <button type="button" class="add-button" id="add-button">Add</button>
+                    <input class="name-input" placeholder="todo name" id="name-input">
+
+                    <input class="ddl-input" type="datetime-local" placeholder="ddl" id='ddl-input'>
+
+                    <button type="button" class="add-button" id="add-button">Add</button>
+
+                </div>
+
+            </div>
+
+            <button id="open-modal-button" class="open-modal-button"></button>
 
         </div>
 
-    </div>
-
-    <script type="module" src="./app.js"></script>
+        <script type="module" src="./app.js"></script>
 
 </body>
 

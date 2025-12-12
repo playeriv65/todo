@@ -1,9 +1,13 @@
 import * as API from "./api/api.js";
 import * as DOM_UTIL from "./dom_util.js";
 
+const addBarOverlay = document.getElementById("add-bar-overlay");
 const todoNameInput = document.getElementById("name-input");
 const ddlInput = document.getElementById("ddl-input");
 const addButton = document.getElementById("add-button");
+const openModalButton = document.getElementById("open-modal-button");
+let modalIsOpen = false;
+
 const todoBoard = document.getElementById("todo-board");
 
 const renderTodoList = (todoList) => {
@@ -14,10 +18,21 @@ const renderTodoList = (todoList) => {
   console.log("render");
 };
 
+/**
+ * Init page with callback operation
+ */
 async function initTodoListPage() {
-  const localTodoList = await API.getTodoList((remoteTodoList) => {
-    renderTodoList(remoteTodoList);
-  })
+  const localTodoList = await API.getTodoList((remoteTodoList) =>
+    renderTodoList(remoteTodoList)
+  );
+  renderTodoList(localTodoList);
+}
+
+/**
+ * Render page without callback
+ */
+async function refreshTodoListPage() {
+  const localTodoList = await API.getTodoList();
   renderTodoList(localTodoList);
 }
 
@@ -37,8 +52,14 @@ addButton.addEventListener("click", async () => {
 
   await API.createTodo({ todoName, ddl });
 
-  renderTodoList();
+  refreshTodoListPage();
   clearInput();
+});
+
+openModalButton.addEventListener("click", () => {
+  if (modalIsOpen) addBarOverlay.classList.remove("active");
+  else addBarOverlay.classList.add("active");
+  modalIsOpen = !modalIsOpen;
 });
 
 todoBoard.addEventListener("click", async (event) => {
@@ -48,14 +69,14 @@ todoBoard.addEventListener("click", async (event) => {
   const todoToggleButton = clickedElement.closest(".todo-toggle-button");
 
   if (todoDeleteButton) {
-    const todoId = Number(todoDeleteButton.dataset.id);
-    await API.deleteTodo(todoId);
-    renderTodoList();
+    const id = todoDeleteButton.dataset.id;
+    await API.deleteTodo(id);
+    refreshTodoListPage();
   } else if (todoToggleButton) {
-    const todoId = Number(todoToggleButton.dataset.id);
+    const id = todoToggleButton.dataset.id;
     const todoFinished = todoToggleButton.dataset.finished === "true";
 
-    const updatedTodo = await API.toggleTodo(todoId, todoFinished);
+    const updatedTodo = await API.toggleTodo(id, todoFinished);
     const updatedTodoDiv = DOM_UTIL.getTodoDiv(updatedTodo);
     todoToggleButton.closest(".todo-div").replaceWith(updatedTodoDiv);
   } else if (

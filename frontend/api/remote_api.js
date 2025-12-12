@@ -1,6 +1,12 @@
 const BaseApiUrl = "http://127.0.0.1:8000";
 const JSON_HEADER = { "Content-Type": "application/json" };
 
+/**
+ * Handle api call
+ * @param {string} endPoint Api url end point.
+ * @param {object} config Config and request body.
+ * @returns 
+ */
 async function apiCall(endPoint, config = {}) {
   try {
     const response = await fetch(BaseApiUrl + endPoint, config);
@@ -28,8 +34,8 @@ export async function getTodoList() {
   return todoListRemote;
 }
 
-export async function getTodoById(todoId) {
-  const todo = await apiCall(`/todos/${todoId}`);
+export async function getTodoById(id) {
+  const todo = await apiCall(`/todos/${id}`);
 
   return todo;
 }
@@ -44,8 +50,8 @@ export async function postTodo(todoPost) {
   return todo;
 }
 
-export async function updateTodo(todoId, todoUpdate) {
-  const todo = await apiCall(`/todos/${todoId}`, {
+export async function updateTodo(id, todoUpdate) {
+  const todo = await apiCall(`/todos/${id}`, {
     method: "PATCH",
     headers: JSON_HEADER,
     body: JSON.stringify(todoUpdate),
@@ -54,17 +60,17 @@ export async function updateTodo(todoId, todoUpdate) {
   return todo;
 }
 
-export async function toggleTodo(todoId, todoFinished) {
+export async function toggleTodo(id, todoFinished) {
   const todoUpdate = {
     finished: !todoFinished,
   };
 
-  const todo = await updateTodo(todoId, todoUpdate);
+  const todo = await updateTodo(id, todoUpdate);
   return todo;
 }
 
-export async function deleteTodo(todoId) {
-  const msg = await apiCall(`/todos/${todoId}`, {
+export async function deleteTodo(id) {
+  const msg = await apiCall(`/todos/${id}`, {
     method: "DELETE",
   });
 

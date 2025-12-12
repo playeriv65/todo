@@ -2,13 +2,14 @@
 
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
+from uuid import UUID
 
 from backend.models import TodoEntry
 from backend.schemas import TodoCreate, TodoUpdate, TodoBase
 
 
-def get_todo_by_id(todo_id: int, db: Session):
-    todo_entry = db.query(TodoEntry).filter(TodoEntry.id == todo_id).first()
+def get_todo_by_id(id: UUID, db: Session):
+    todo_entry = db.query(TodoEntry).filter(TodoEntry.id == id).first()
 
     if todo_entry is None:
         raise HTTPException(status_code=404, detail="Todo not found")
@@ -32,9 +33,9 @@ def create_todo(todo: TodoCreate, db: Session):
     return todo_db
 
 
-def update_todo(todo_id: int, todo_update: TodoUpdate, db: Session):
+def update_todo(id: UUID, todo_update: TodoUpdate, db: Session):
     """Update todo assist function"""
-    todo_entry = get_todo_by_id(todo_id=todo_id, db=db)
+    todo_entry = get_todo_by_id(id=id, db=db)
 
     update_data = todo_update.model_dump(exclude_unset=True)
 
@@ -47,8 +48,8 @@ def update_todo(todo_id: int, todo_update: TodoUpdate, db: Session):
     return todo_entry
 
 
-def delete_todo(todo_id: int, db: Session):
-    todo = get_todo_by_id(todo_id=todo_id, db=db)
+def delete_todo(id: UUID, db: Session):
+    todo = get_todo_by_id(id=id, db=db)
 
     db.delete(todo)
     db.commit()

@@ -4,6 +4,7 @@ from typing import Annotated
 from sqlalchemy.orm import Session
 
 from pydantic import BaseModel
+from uuid import UUID
 
 from backend.models import TodoEntry
 from backend.dependencies import get_db
@@ -37,9 +38,9 @@ def get_todo_all(db: DbDependency):
     return todos
 
 
-@app.get("/todos/{todo_id}", response_model=TodoBase)
-def get_todo_by_id(todo_id: int, db: DbDependency):
-    todo_entry = crud.get_todo_by_id(todo_id=todo_id, db=db)
+@app.get("/todos/{id}", response_model=TodoBase)
+def get_todo_by_id(id: UUID, db: DbDependency):
+    todo_entry = crud.get_todo_by_id(id=id, db=db)
 
     return todo_entry
 
@@ -51,15 +52,15 @@ def create_todo(todo: TodoCreate, db: DbDependency):
     return todo_entry
 
 
-@app.patch("/todos/{todo_id}", response_model=TodoBase)
-def update_todo(todo_id: int, todo_update: TodoUpdate, db: DbDependency):
-    todo_entry = crud.update_todo(todo_id=todo_id, todo_update=todo_update, db=db)
+@app.patch("/todos/{id}", response_model=TodoBase)
+def update_todo(id: UUID, todo_update: TodoUpdate, db: DbDependency):
+    todo_entry = crud.update_todo(id=id, todo_update=todo_update, db=db)
 
     return todo_entry
 
 
-@app.delete("/todos/{todo_id}")
-def delete_todo(todo_id: int, db: DbDependency):
-    crud.delete_todo(todo_id=todo_id, db=db)
+@app.delete("/todos/{id}")
+def delete_todo(id: UUID, db: DbDependency):
+    crud.delete_todo(id=id, db=db)
 
     return Response(status_code=204)

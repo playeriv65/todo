@@ -8,6 +8,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy import delete, text
 from datetime import datetime, date
 from uuid6 import uuid7
+from uuid import UUID, uuid5, NAMESPACE_DNS
 
 SQLALCHEMY_DATABASE_URL = "sqlite:///./backend/db_tables/todos.db"
 
@@ -45,10 +46,26 @@ def test_mode():
     print("开始插入初始化数据...")
 
     initial_todos = [
-        {"todoName": "实现后端删除功能", "ddl": date(2025, 12, 5), "finished": True},
-        {"todoName": "前端联调 - GET", "ddl": date(2025, 12, 5), "finished": True},
-        {"todoName": "前端联调 - POST", "ddl": date(2025, 12, 7), "finished": False},
         {
+            "id": uuid5(NAMESPACE_DNS, "todo_1"),
+            "todoName": "实现后端删除功能",
+            "ddl": date(2025, 12, 5),
+            "finished": True,
+        },
+        {
+            "id": uuid5(NAMESPACE_DNS, "todo_2"),
+            "todoName": "前端联调 - GET",
+            "ddl": date(2025, 12, 5),
+            "finished": True,
+        },
+        {
+            "id": uuid5(NAMESPACE_DNS, "todo_3"),
+            "todoName": "前端联调 - POST",
+            "ddl": date(2025, 12, 7),
+            "finished": False,
+        },
+        {
+            "id": uuid5(NAMESPACE_DNS, "todo_4"),
             "todoName": "学习 CSS Flexbox 技巧",
             "ddl": date(2025, 12, 3),
             "finished": False,
@@ -56,7 +73,6 @@ def test_mode():
     ]
 
     for todo_data in initial_todos:
-        todo_data["id"] = uuid7()
         todo = TodoEntry(**todo_data)
         db.add(todo)
 

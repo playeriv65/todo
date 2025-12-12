@@ -1,10 +1,14 @@
 const DB_NAME = "TodoAppDB";
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 const TODO_TABLE_NAME = "todos";
 const SYNC_QUEUE_TABLE_NAME = "sync_queue";
 
 let dbInstance = null;
 
+/**
+ * Handle IndexDB version control and create db instance.
+ * @returns IndexDB instance
+ */
 function getDb() {
   return new Promise((resolve, reject) => {
     if (dbInstance) {
@@ -41,6 +45,13 @@ function getDb() {
   });
 }
 
+/**
+ * Handle both single and batch process for local IndexDB
+ * @param {string} mode
+ * @param {function} operation
+ * @param {string} storeName
+ * @returns
+ */
 export async function executeRequest(
   mode,
   operation,
@@ -102,15 +113,15 @@ export async function updateTodoList(todos) {
 }
 
 export async function getTodoList() {
-  return executeRequest("readonly", (store) => store.getAll());
+  return executeRequest("readonly", (store) => store.getAll()) || [];
 }
 
-export async function getTodoById(todoId) {
-  return executeRequest("readonly", (store) => store.get(todoId));
+export async function getTodoById(id) {
+  return executeRequest("readonly", (store) => store.get(id));
 }
 
-export async function deleteTodo(todoId) {
-  return executeRequest("readwrite", (store) => store.delete(todoId));
+export async function deleteTodo(id) {
+  return executeRequest("readwrite", (store) => store.delete(id));
 }
 
 export async function deleteQueueItem(itemId) {

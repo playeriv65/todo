@@ -16,47 +16,42 @@ function createElementWithData(tagName, classList, dataset = {}) {
   return element;
 }
 
-export function getTodoNameElement(todoName, todoId) {
+export function getTodoNameElement(todoName, id) {
   const todoNameElement = createElementWithData(
     "p",
     ["todo-name", "editable"],
-    { id: todoId, varName: "todoName" }
+    { id: id, varName: "todoName" }
   );
   todoNameElement.textContent = `${todoName}`;
 
   return todoNameElement;
 }
 
-function getTodoDdlInput(ddl, todoId) {
-  const todoDdlInput = createElementWithData(
-    "input",
-    ["todo-ddl-input"],
-    { id: todoId },
-  );
+function getTodoDdlInput(ddl, id) {
+  const todoDdlInput = createElementWithData("input", ["todo-ddl-input"], {
+    id: id,
+  });
   todoDdlInput.value = ddl;
   todoDdlInput.type = "datetime-local";
 
   return todoDdlInput;
 }
 
-function getTodoDdlText(ddl, todoId) {
+function getTodoDdlText(ddl, id) {
   const todoDdlText = createElementWithData(
     "p",
     ["todo-ddl-text", "editable"],
-    { id: todoId, varName: "ddl" }
+    { id: id, varName: "ddl" }
   );
   todoDdlText.textContent = `${ddl}`;
 
   return todoDdlText;
 }
 
-export function getTodoDdlDiv(ddl, todoId) {
-  const todoDdlDiv = createElementWithData(
-    "div",
-    ["todo-ddl-div"],
-  );
+export function getTodoDdlDiv(ddl, id) {
+  const todoDdlDiv = createElementWithData("div", ["todo-ddl-div"]);
 
-  todoDdlDiv.appendChild(getTodoDdlText(ddl, todoId));
+  todoDdlDiv.appendChild(getTodoDdlText(ddl, id));
   return todoDdlDiv;
 }
 
@@ -69,48 +64,47 @@ export function getTodoToggleButtonIcon(finished) {
   return todoButtonIcon;
 }
 
-export function getTodoToggleButtonElement(finished, todoId) {
+export function getTodoToggleButtonElement(finished, id) {
   const todoToggleButton = createElementWithData(
     "button",
-    finished ? ["redo-button", "todo-toggle-button"] : ["check-button", "todo-toggle-button"],
-    { id: todoId, finished: finished }
+    finished
+      ? ["redo-button", "todo-toggle-button"]
+      : ["check-button", "todo-toggle-button"],
+    { id: id, finished: finished }
   );
 
   todoToggleButton.appendChild(getTodoToggleButtonIcon(finished));
   return todoToggleButton;
 }
 
-function getTodoDeleteButtonElement(todoId) {
+function getTodoDeleteButtonElement(id) {
   const todoDeleteButton = createElementWithData(
     "button",
     ["todo-delete-button"],
-    { id: todoId }
+    { id: id }
   );
 
-  const todoDeleteButtonIcon = createElementWithData("i", ICON_CLASS_NAMES.delete);
+  const todoDeleteButtonIcon = createElementWithData(
+    "i",
+    ICON_CLASS_NAMES.delete
+  );
   todoDeleteButton.appendChild(todoDeleteButtonIcon);
   return todoDeleteButton;
 }
 
-export function getTodoButtonsDiv(finished, todoId) {
-  const todoButtonsDiv = createElementWithData(
-    "div",
-    ["todo-buttons-div"],
-    { id: todoId }
-  );
+export function getTodoButtonsDiv(finished, id) {
+  const todoButtonsDiv = createElementWithData("div", ["todo-buttons-div"], {
+    id: id,
+  });
 
-  todoButtonsDiv.appendChild(getTodoToggleButtonElement(finished, todoId));
-  todoButtonsDiv.appendChild(getTodoDeleteButtonElement(todoId));
+  todoButtonsDiv.appendChild(getTodoToggleButtonElement(finished, id));
+  todoButtonsDiv.appendChild(getTodoDeleteButtonElement(id));
 
   return todoButtonsDiv;
 }
 
 export function getTodoDiv(todo) {
-  const todoDiv = createElementWithData(
-    "div",
-    ["todo-div"],
-    { id: todo.id }
-  );
+  const todoDiv = createElementWithData("div", ["todo-div"], { id: todo.id });
 
   todoDiv.appendChild(getTodoNameElement(todo.todoName, todo.id));
   todoDiv.appendChild(getTodoDdlDiv(todo.ddl, todo.id));

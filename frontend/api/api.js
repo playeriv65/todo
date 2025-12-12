@@ -1,7 +1,6 @@
 import * as REMOTE from "./remote_api.js";
 import * as LOCAL from "./local_api.js";
 import * as SYNC from "./sync_manager.js";
-import { uuidv7 } from "uuidv7";
 
 async function todoListCallBack(callBack) {
   const remoteTodoList = await REMOTE.getTodoList();
@@ -19,21 +18,25 @@ export async function getTodoList(callBack = null) {
 }
 
 export async function createTodo(todoCreate) {
-  todoCreate.id = uuidv7();
+  todoCreate.id = crypto.randomUUID();
   await LOCAL.putTodo(todoCreate);
   SYNC.addToSyncQueue("CREATE", todoCreate);
 
   return todoCreate;
 }
 
-export async function updateTodo(todoId, todoUpdate) {
-  const updatedTodo = await LOCAL.updateTodo(todoId, todoUpdate);
+export async function updateTodo(id, todoUpdate) {
+  const updatedTodo = await LOCAL.updateTodo(id, todoUpdate);
   SYNC.addToSyncQueue("UPDATE", updatedTodo);
 
   return updatedTodo;
 }
 
-export async function deleteTodo(todoId) {
-  await LOCAL.deleteTodo(todoId);
-  SYNC.addToSyncQueue("DELETE", { id: todoId });
+export async function toggleTodo(id, todoFinished) {
+  return await updateTodo(id, { finished: !todoFinished });
+}
+
+export async function deleteTodo(id) {
+  await LOCAL.deleteTodo(id);
+  SYNC.addToSyncQueue("DELETE", { id: id });
 }
