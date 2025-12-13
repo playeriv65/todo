@@ -3,9 +3,8 @@ import * as LOCAL from "./local_api.js";
 import * as SYNC from "./sync_manager.js";
 
 async function todoListCallBack(callBack) {
-  const remoteTodoList = await REMOTE.getTodoList();
-
-  callBack(remoteTodoList);
+  const syncedTodoList = await SYNC.syncTodoList();
+  callBack(syncedTodoList);
 }
 
 export async function getTodoList(callBack = null) {

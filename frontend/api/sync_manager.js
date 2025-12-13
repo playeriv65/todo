@@ -55,8 +55,10 @@ export async function syncTodoList() {
   if (!navigator.onLine) return;
 
   await processSyncQueue();
-  const todoList = await REMOTE.getTodoList();
-  await LOCAL.updateTodoList(todoList);
+  const syncedTodoList = await REMOTE.getTodoList();
+  LOCAL.updateTodoList(syncedTodoList);
+  
+  return syncedTodoList;
 }
 
 window.addEventListener("online", async () => {

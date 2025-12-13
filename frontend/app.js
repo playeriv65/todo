@@ -46,7 +46,7 @@ addButton.addEventListener("click", async () => {
   const ddl = ddlInput.value;
 
   if (todoName == "") {
-    alert("Must have a name!");
+    // alert("Must have a name!");
     return;
   }
 

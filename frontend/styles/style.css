@@ -28,8 +28,14 @@
 .add-bar-overlay {
   visibility: hidden;
   opacity: 0;
-  background-color: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(5px);
+
+  margin-right: 20px;
+  background-color: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 1000px;
+
+  box-shadow: 0 4px 20px 0 rgb(0, 0, 0, 0.3);
 
   transition: all 0.3s ease;
 }
@@ -49,24 +55,58 @@
   width: 550px;
 
   box-sizing: border-box;
-  padding: 5px 20px;
+  padding: 5px 5px;
 }
 
 .add-bar-overlay.active .add-bar {
   transform: scale(1);
 }
 
+.styled-input {
+  padding: 10px 15px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 1000px;
+
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.styled-input:hover {
+  background-color: rgb(255, 255, 255);
+  border-color: rgba(0, 0, 0, 0.3);
+}
+
+.styled-input:focus {
+  border-color: rgb(74, 144, 226);
+  background-color: white;
+  box-shadow: 0 0 3px 3px rgba(74, 144, 226, 0.15);
+}
+
 .add-button {
+  display: inline-block;
+  text-align: center;
+
+  padding: 10px 20px;
   background-color: rgb(41, 104, 241);
   border: none;
-  border-radius: 5px;
+  border-radius: 1000px;
+
   color: white;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
   font-size: 16px;
   cursor: pointer;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+  transition: all 0.1s ease;
+}
+
+.add-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.add-button:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
 }
 
 .open-modal-button {
