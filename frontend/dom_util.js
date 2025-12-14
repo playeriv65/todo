@@ -1,10 +1,12 @@
 import "../node_modules/@phosphor-icons/web/src/index.js";
 
-const ICON_CLASS_NAMES = {
+export const ICON_CLASS_NAMES = {
   check: ["ph", "ph-check"],
   redo: ["ph", "ph-arrow-counter-clockwise"],
   delete: ["ph", "ph-trash"],
   edit: ["ph", "ph-pen"],
+  listAdd: ["ph", "ph-list-plus"],
+  x: ["ph", "ph-x"],
 };
 
 function createElementWithData(tagName, classList, dataset = {}) {
@@ -56,12 +58,10 @@ export function getTodoDdlDiv(ddl, id) {
 }
 
 export function getTodoToggleButtonIcon(finished) {
-  const todoButtonIcon = createElementWithData(
+  return createElementWithData(
     "i",
     finished ? ICON_CLASS_NAMES.redo : ICON_CLASS_NAMES.check
   );
-
-  return todoButtonIcon;
 }
 
 export function getTodoToggleButtonElement(finished, id) {
@@ -70,7 +70,7 @@ export function getTodoToggleButtonElement(finished, id) {
     finished
       ? ["redo-button", "todo-toggle-button"]
       : ["check-button", "todo-toggle-button"],
-    { id: id, finished: finished }
+    { id, finished }
   );
 
   todoToggleButton.appendChild(getTodoToggleButtonIcon(finished));

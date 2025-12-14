@@ -16,8 +16,8 @@ database.create_db_and_tables()
 app = FastAPI()
 
 origins = [
-    "http://127.0.0.1:5500",
-    "http://localhost:5500",
+    "http://127.0.0.1:5655",
+    "http://localhost:5655",
 ]
 
 app.add_middleware(

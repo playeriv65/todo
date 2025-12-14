@@ -57,8 +57,13 @@ addButton.addEventListener("click", async () => {
 });
 
 openModalButton.addEventListener("click", () => {
-  if (modalIsOpen) addBarOverlay.classList.remove("active");
-  else addBarOverlay.classList.add("active");
+  addBarOverlay.classList.toggle("active");
+
+  const openModalButtonIcon = document.getElementById("open-modal-button-icon");
+
+  openModalButtonIcon.classList.toggle("ph-list-plus", modalIsOpen);
+  openModalButtonIcon.classList.toggle("ph-x", !modalIsOpen);
+
   modalIsOpen = !modalIsOpen;
 });
 
