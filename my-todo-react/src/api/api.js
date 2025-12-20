@@ -1,4 +1,3 @@
-import * as REMOTE from "./remote_api.js";
 import * as LOCAL from "./local_api.js";
 import * as SYNC from "./sync_manager.js";
 

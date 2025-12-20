@@ -1,5 +1,5 @@
 import * as API from "./api/api.js";
-import * as DOM_UTIL from "./dom_util.js";
+import * as DOM_UTIL from "../my-todo-react/src/dom_util.js";
 
 const addBarOverlay = document.getElementById("add-bar-overlay");
 const todoNameInput = document.getElementById("name-input");
