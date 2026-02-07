@@ -29,7 +29,7 @@ export function getTodoNameElement(todoName, id) {
   return todoNameElement;
 }
 
-function getTodoDdlInput(ddl, id) {
+export function getTodoDdlInput(ddl, id) {
   const todoDdlInput = createElementWithData("input", ["todo-ddl-input"], {
     id: id,
   });

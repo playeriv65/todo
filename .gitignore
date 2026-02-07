@@ -2,7 +2,3 @@ __pycache__
 *.db
 node_modules
 .mypy_cache
-eslint.config.mjs
-package.json
-package-lock.json
-todo

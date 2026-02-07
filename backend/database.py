@@ -10,7 +10,7 @@ from datetime import datetime, date
 from uuid6 import uuid7
 from uuid import UUID, uuid5, NAMESPACE_DNS
 
-SQLALCHEMY_DATABASE_URL = "sqlite:///./backend/db_tables/todos.db"
+SQLALCHEMY_DATABASE_URL = "sqlite:///./db_tables/todos.db"
 
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
