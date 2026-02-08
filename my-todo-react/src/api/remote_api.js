@@ -14,7 +14,7 @@ async function apiCall(endPoint, config = {}) {
     if (!response.ok) {
       const errorData = await response.json();
       throw new Error(
-        `API error! Status: ${response.status}. Detail: ${errorData}`
+        `API error! Status: ${response.status}. Detail: ${JSON.stringify(errorData)}`
       );
     }
 

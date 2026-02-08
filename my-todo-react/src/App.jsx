@@ -1,6 +1,7 @@
 import "./styles/style.css";
 import "./styles/todo-board.css";
 import * as API from "./api/api.js"
+import { TodoList } from "./components/Todolist.jsx";
 
 import { useEffect, useState } from "react";
 
@@ -19,32 +20,24 @@ function App() {
   }, []);
 
   const [todoName, setTodoName] = useState("");
+  const [ddl, setDdl] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleAddTodo = async () => {
+    const createdTodo = await API.createTodo({
+      todoName,
+      ddl,
+    });
+
+    setTodoList((prev) => [...prev, createdTodo]);
+    setTodoName("");
+    setDdl("");
+  }
 
   return (
     <>
       <div className="todo-app-div">
-        <ul className="todo-board" id="todo-board">
-          {todoList.map((todo) => (
-            <li key={todo.id}>{todo.todoName} {todo.ddl}</li>
-          ))}
-        </ul>
-
-        <button id="add-button" onClick={() => {
-          const newTodo = { id: Date.now(), name: todoName };
-          setTodoList((prev) => [...prev, newTodo]);
-          setTodoName("");
-        }}>
-          test add
-        </button>
-
-        <input
-          value={todoName}
-          onChange={(e) => setTodoName(e.target.value)}
-          placeholder="todo name"
-        />
-
-        <p>input: {todoName}</p>
+        <TodoList todoList={todoList} />
 
         <div id="add-modal" className="add-modal">
           <div id="add-bar-overlay" className={`add-bar-overlay ${isModalOpen ? "active" : ""}`}>
@@ -53,6 +46,8 @@ function App() {
                 className="name-input styled-input"
                 placeholder="todo name"
                 id="name-input"
+                value={todoName}
+                onChange={(e) => setTodoName(e.target.value)}
               />
 
               <input
@@ -60,9 +55,16 @@ function App() {
                 type="datetime-local"
                 placeholder="ddl"
                 id="ddl-input"
+                value={ddl}
+                onChange={(e) => setDdl(e.target.value)}
               />
 
-              <button type="button" className="add-button" id="add-button">
+              <button
+                type="button"
+                className="add-button"
+                id="add-button"
+                onClick={() => { handleAddTodo(); }}
+              >
                 Add
               </button>
             </div>
