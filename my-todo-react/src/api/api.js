@@ -1,18 +1,14 @@
 import * as LOCAL from "./local_api.js";
 import * as SYNC from "./sync_manager.js";
 
-async function todoListCallBack(callBack) {
-  const syncedTodoList = await SYNC.syncTodoList();
-  callBack(syncedTodoList);
+export async function syncTodoList() {
+  const remoteTodoList = SYNC.syncTodoList();
+  return remoteTodoList || [];
 }
-
-export async function getTodoList(callBack = null) {
+export async function getTodoList() {
   const localTodoList = await LOCAL.getTodoList();
-  if (callBack) {
-    todoListCallBack(callBack);
-  }
 
-  return localTodoList;
+  return localTodoList || [];
 }
 
 export async function createTodo(todoCreate) {

@@ -3,7 +3,7 @@ Basic schemas for data
 """
 
 from typing import Optional
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
 from datetime import datetime
 from uuid import UUID
 
@@ -14,6 +14,11 @@ class TodoCreate(BaseModel):
     id: UUID
     todoName: str
     ddl: Optional[datetime] = None
+
+    @field_validator("ddl", mode="before")
+    @classmethod
+    def handle_ddl_empty(cls, v):
+        return None if v == "" else v
 
 
 class TodoUpdate(BaseModel):

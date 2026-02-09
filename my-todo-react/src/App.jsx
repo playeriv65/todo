@@ -14,12 +14,18 @@ function App() {
   const [todoList, setTodoList] = useState([]);
 
   useEffect(() => {
+    let alive = true;
+
     async function loadTodoList() {
-      const todoList = await API.getTodoList();
-      setTodoList(todoList);
+      const localTodoList = await API.getTodoList();
+      if (alive) setTodoList(localTodoList);
+
+      const remoteTodoList = await API.syncTodoList();
+      if (alive) setTodoList(remoteTodoList);
     }
 
     loadTodoList();
+    return () => alive=false;
   }, []);
 
   async function onAddTodo(todoToAdd) {
