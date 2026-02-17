@@ -25,7 +25,7 @@ function App() {
     }
 
     loadTodoList();
-    return () => alive=false;
+    return () => alive = false;
   }, []);
 
   async function onAddTodo(todoToAdd) {
@@ -33,10 +33,18 @@ function App() {
     setTodoList((prev) => [...prev, newTodo]);
   }
 
+  async function onDeleteTodo(id) {
+    await API.deleteTodo(id);
+    setTodoList((prev) => prev.filter(t => t.id !== id));
+  }
+
   return (
     <>
       <div className="todo-app-div">
-        <TodoList todoList={todoList} />
+        <TodoList
+          todoList={todoList}
+          onDeleteTodo={onDeleteTodo}
+        />
 
         <AddModal onAddTodo={onAddTodo} />
       </div>
