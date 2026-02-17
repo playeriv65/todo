@@ -38,12 +38,19 @@ function App() {
     setTodoList((prev) => prev.filter(t => t.id !== id));
   }
 
+  async function onToggleTodo(id) {
+    const toggledTodo = await API.toggleTodo(id, todoList.find(t => t.id === id).finished);
+    setTodoList((prev) => prev.map(t => t.id === id ? toggledTodo : t));
+  }
+
+
   return (
     <>
       <div className="todo-app-div">
         <TodoList
           todoList={todoList}
           onDeleteTodo={onDeleteTodo}
+          onToggleTodo={onToggleTodo}
         />
 
         <AddModal onAddTodo={onAddTodo} />

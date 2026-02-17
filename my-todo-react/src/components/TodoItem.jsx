@@ -8,11 +8,11 @@ function TodoDdl({ ddl }) {
   return <p className="todo-ddl-text">{ddl}</p>
 }
 
-function TodoToggleButton({ finished }) {
+function TodoToggleButton({ id, finished, onToggleTodo }) {
   const toggleClass = finished ? "redo-button" : "check-button";
   const ToggleIcon = finished ? ArrowCounterClockwiseIcon : CheckIcon;
   return (
-    <button className={`todo-toggle-button ${toggleClass}`}>
+    <button className={`todo-toggle-button ${toggleClass}`} onClick={() => onToggleTodo(id)}>
       <ToggleIcon />
     </button>
   )
@@ -26,21 +26,21 @@ function TodoDeleteButton({ id, onDeleteTodo }) {
   )
 }
 
-function TodoButtonsDiv({id, finished, onDeleteTodo}) {
+function TodoButtonsDiv({id, finished, onToggleTodo, onDeleteTodo}) {
   return (
     <div className="todo-buttons-div">
-      <TodoToggleButton id={id} finished={finished} />
+      <TodoToggleButton id={id} finished={finished} onToggleTodo={onToggleTodo} />
       <TodoDeleteButton id={id} onDeleteTodo={onDeleteTodo}/>
     </div>
   )
 }
 
-export function TodoItem({ todo, onDeleteTodo }) {
+export function TodoItem({ todo, onDeleteTodo, onToggleTodo }) {
   return (
     <div className="todo-div">
       <TodoName todoName={todo.todoName}/>
       <TodoDdl ddl={todo.ddl}/>
-      <TodoButtonsDiv id={todo.id} finished={todo.finished} onDeleteTodo={onDeleteTodo} />
+      <TodoButtonsDiv id={todo.id} finished={todo.finished} onDeleteTodo={onDeleteTodo} onToggleTodo={onToggleTodo}/>
     </div>
   )
 }
