@@ -2,6 +2,8 @@ import { useState } from "react";
 
 import { ListPlusIcon, XIcon, } from "@phosphor-icons/react"
 
+import * as DATETIME from "./datetime.js";
+
 export function AddModal({ onAddTodo }) {
   const [todoName, setTodoName] = useState("");
   const [ddl, setDdl] = useState("");
@@ -10,7 +12,7 @@ export function AddModal({ onAddTodo }) {
   const handleAddTodo = async () => {
     const todoToAdd = {
       todoName,
-      ddl,
+      ddl: DATETIME.toApiValue(ddl),
     };
 
     await onAddTodo(todoToAdd);

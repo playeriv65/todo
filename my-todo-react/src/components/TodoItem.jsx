@@ -37,8 +37,38 @@ function TodoNameInput({ draftName, setDraftName, onUpdateTodo, id, setIsEditing
   )
 }
 
-function TodoDdl({ ddl }) {
-  return <p className="todo-ddl-text">{DATETIME.toDisplay(ddl)}</p>
+function TodoDdl({ ddl, setDraftDdl, setIsEditingDdl }) {
+  return (
+    <p className="todo-ddl-text" onClick={() => {
+      setDraftDdl(DATETIME.toInputValue(ddl));
+      setIsEditingDdl(true);
+    }}>
+      {DATETIME.toDisplay(ddl)}
+    </p>
+  );
+}
+
+function TodoDdlInput({ draftDdl, setDraftDdl, onUpdateTodo, id, setIsEditingDdl }) {
+  const handleCancel = () => {
+    setDraftDdl("");
+    setIsEditingDdl(false);
+  }
+
+  return (
+    <input autoFocus className="todo-ddl-div" type="datetime-local" value={draftDdl} onChange={(e) => setDraftDdl(e.target.value)}
+      onBlur={() => {
+        onUpdateTodo(id, { ddl: DATETIME.toApiValue(draftDdl) });
+        setIsEditingDdl(false);
+      }}
+      onKeyDown={(e) => {
+        if (e.key === "Enter") {
+          e.currentTarget.blur();
+        } else if (e.key === "Escape") {
+          handleCancel();
+        } 
+      }}
+    />
+  )
 }
 
 function TodoToggleButton({ id, finished, onToggleTodo }) {
@@ -81,7 +111,12 @@ export function TodoItem({ todo, onDeleteTodo, onToggleTodo, onUpdateTodo }) {
         ? <TodoNameInput draftName={draftName} setDraftName={setDraftName} onUpdateTodo={onUpdateTodo} id={todo.id} setIsEditingName={setIsEditingName} />
         : <TodoName todoName={todo.todoName} setDraftName={setDraftName} setIsEditingName={setIsEditingName} />
       }
-      <TodoDdl ddl={todo.ddl} onUpdateTodo={onUpdateTodo} />
+
+      {isEditingDdl
+        ? <TodoDdlInput draftDdl={draftDdl} setDraftDdl={setDraftDdl} onUpdateTodo={onUpdateTodo} id={todo.id} setIsEditingDdl={setIsEditingDdl} />
+        : <TodoDdl ddl={todo.ddl} setDraftDdl={setDraftDdl} setIsEditingDdl={setIsEditingDdl} />
+      }
+      
       <TodoButtonsDiv id={todo.id} finished={todo.finished} onDeleteTodo={onDeleteTodo} onToggleTodo={onToggleTodo} />
     </div>
   )

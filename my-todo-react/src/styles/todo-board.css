@@ -46,20 +46,6 @@
   padding: 0 5px;
 }
 
-.todo-ddl-input {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-
-  background-color: rgba(0, 0, 0, 0.5);
-  border: none;
-
-  font-family: inherit;
-  font-size: inherit;
-}
-
 .todo-buttons-div {
   display: flex;
   flex-direction: column;
