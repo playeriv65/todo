@@ -43,6 +43,10 @@ function App() {
     setTodoList((prev) => prev.map(t => t.id === id ? toggledTodo : t));
   }
 
+  async function onUpdateTodo(id, todoPatch) {
+    const updatedTodo = await API.updateTodo(id, todoPatch);
+    setTodoList((prev) => prev.map(t => t.id === id ? updatedTodo : t));
+  }
 
   return (
     <>
@@ -51,6 +55,7 @@ function App() {
           todoList={todoList}
           onDeleteTodo={onDeleteTodo}
           onToggleTodo={onToggleTodo}
+          onUpdateTodo={onUpdateTodo}
         />
 
         <AddModal onAddTodo={onAddTodo} />

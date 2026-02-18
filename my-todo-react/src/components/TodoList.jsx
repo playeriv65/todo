@@ -1,6 +1,6 @@
 import { TodoItem } from "./TodoItem";
 
-export function TodoList({ todoList, onToggleTodo, onDeleteTodo}) {
+export function TodoList({ todoList, onToggleTodo, onDeleteTodo, onUpdateTodo }) {
   return (
     <ul className="todo-board" id="todo-board">
       {todoList.map((todo) => (
@@ -9,6 +9,7 @@ export function TodoList({ todoList, onToggleTodo, onDeleteTodo}) {
           todo={todo}
           onToggleTodo={onToggleTodo}
           onDeleteTodo={onDeleteTodo}
+          onUpdateTodo={onUpdateTodo}
         />
       ))}
     </ul>

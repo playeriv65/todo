@@ -26,6 +26,15 @@
 
 .todo-name {
   flex: 2;
+
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  font: inherit;
+  line-height: inherit;
 }
 
 .todo-ddl-div {
