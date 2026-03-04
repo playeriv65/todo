@@ -2,13 +2,13 @@ import { ArrowCounterClockwiseIcon, CheckIcon, TrashIcon } from "@phosphor-icons
 import { useState } from "react";
 import * as DATETIME from "./datetime.js";
 
-function TodoName({ todoName, setDraftName, setIsEditingName }) {
+function TodoName({ name, setDraftName, setIsEditingName }) {
   return (
     <p className="todo-name" onClick={() => {
-      setDraftName(todoName);
+      setDraftName(name);
       setIsEditingName(true);
     }}>
-      {todoName}
+      {name}
     </p>
   )
 }
@@ -22,7 +22,7 @@ function TodoNameInput({ draftName, setDraftName, onUpdateTodo, id, setIsEditing
   return (
     <input autoFocus className="todo-name" value={draftName} onChange={(e) => setDraftName(e.target.value)}
       onBlur={() => {
-        onUpdateTodo(id, { todoName: draftName });
+        onUpdateTodo(id, { name: draftName });
         setIsEditingName(false);
       }}
 
@@ -99,7 +99,7 @@ function TodoButtonsDiv({ id, finished, onToggleTodo, onDeleteTodo }) {
 }
 
 export function TodoItem({ todo, onDeleteTodo, onToggleTodo, onUpdateTodo }) {
-  const [draftName, setDraftName] = useState(todo.todoName);
+  const [draftName, setDraftName] = useState(todo.name);
   const [draftDdl, setDraftDdl] = useState(todo.ddl);
 
   const [isEditingName, setIsEditingName] = useState(false);
@@ -109,7 +109,7 @@ export function TodoItem({ todo, onDeleteTodo, onToggleTodo, onUpdateTodo }) {
     <div className="todo-div">
       {isEditingName
         ? <TodoNameInput draftName={draftName} setDraftName={setDraftName} onUpdateTodo={onUpdateTodo} id={todo.id} setIsEditingName={setIsEditingName} />
-        : <TodoName todoName={todo.todoName} setDraftName={setDraftName} setIsEditingName={setIsEditingName} />
+        : <TodoName name={todo.name} setDraftName={setDraftName} setIsEditingName={setIsEditingName} />
       }
 
       {isEditingDdl
